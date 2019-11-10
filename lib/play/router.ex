@@ -12,4 +12,6 @@ defmodule Play.Router do
   get "/" do
     send_resp(conn, 200, "hello")
   end
+
+  match(_, do: send_resp(conn, 404, "Not found"))
 end
