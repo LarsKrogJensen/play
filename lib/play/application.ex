@@ -6,8 +6,9 @@ defmodule Play.Application do
   def start(_type, _args) do
     port = System.get_env("PORT", "8080")
            |> String.to_integer
-    IO.puts("Using port" <> inspect(port))
+    IO.puts("Using port: " <> inspect(port))
     children = [
+      Play.Repo,
       {
         Plug.Cowboy,
         scheme: :http,
