@@ -18,15 +18,9 @@ defmodule Play.Router do
 
   put "/user/:user_name/settings" do
     settings = Settings.get_or_default(user_name)
-    params = %{
-      odds_format: conn.body_params["oddsFormat"],
-      odds_change_action: conn.body_params["oddsChangeAction"],
-      show_odds_change_options: conn.body_params["showOddsChangeOptions"]
-    }
-    changeset = settings
-                |> Settings.changeset(params)
-    IO.puts("changeset #{inspect changeset}")
-    result = changeset
+    params = Settings.params_from_json(conn.body_params)
+    result = settings
+             |> Settings.changeset(params)
              |> Settings.upsert()
 
     case result do
@@ -34,6 +28,17 @@ defmodule Play.Router do
       {:error, _} -> send_resp(conn, 400, "Shitty request")
     end
   end
+
+  get "/user/:user_name/settings" do
+    json = Settings.get_or_default(user_name)
+    |> Settings.to_json
+    |> Jason.encode!
+
+    conn
+    |>put_resp_content_type("application/json")
+    |> send_resp(200, json)
+  end
+
 
   match(_, do: send_resp(conn, 404, "Not found"))
 end

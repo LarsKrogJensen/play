@@ -31,4 +31,21 @@ defmodule Play.Settings do
       _ -> settings
     end
   end
+
+  def params_from_json(json) do
+    %{
+      odds_format: json["oddsFormat"],
+      odds_change_action: json["oddsChangeAction"],
+      show_odds_change_options: json["showOddsChangeOptions"]
+    }
+  end
+
+  def to_json(settings) do
+    %{
+      oddsFormat: settings.odds_format,
+      oddsChangeAction: settings.odds_change_action,
+      showOddsChangeOptions: settings.show_odds_change_options
+    }
+  end
+
 end
