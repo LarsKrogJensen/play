@@ -1,5 +1,7 @@
 defmodule Play.Settings do
   use Ecto.Schema
+  alias Ecto.Changeset
+
   @primary_key {:user_name, :string, autogenerate: false}
 
   schema "settings" do
@@ -12,8 +14,11 @@ defmodule Play.Settings do
 
   def changeset(settings, params \\ %{}) do
     settings
-    |> Ecto.Changeset.cast(params, [:odds_format, :odds_change_action, :show_odds_change_options])
-    |> Ecto.Changeset.validate_required([:odds_format, :odds_change_action, :show_odds_change_options])
+    |> Changeset.cast(params, [:odds_format, :odds_change_action, :show_odds_change_options])
+    |> Changeset.validate_required([:odds_format, :odds_change_action, :show_odds_change_options])
+    |> Changeset.validate_inclusion(:odds_format, ["american", "decimal", "fractional"])
+    |> Changeset.validate_inclusion(:show_odds_change_options, [true, false])
+    |> Changeset.validate_inclusion(:odds_change_action, ["oddsChangeApprove", "oddsChangeHigher", "oddsChangeReject"])
   end
 
   def upsert(%Ecto.Changeset{data: %Play.Settings{}} = settings) do
@@ -22,8 +27,8 @@ defmodule Play.Settings do
 
   def get_or_default(user_name) do
     case settings = Play.Repo.get(__MODULE__, user_name) do
-       nil -> %__MODULE__{user_name: user_name}
-       _ -> settings
+      nil -> %__MODULE__{user_name: user_name}
+      _ -> settings
     end
   end
 end
