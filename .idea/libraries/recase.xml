@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="recase" type="mix">
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$/_build/dev/lib/recase/ebin" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="file://$PROJECT_DIR$/deps/recase/lib" />
+    </SOURCES>
+  </library>
+</component>

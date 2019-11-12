@@ -31,11 +31,11 @@ defmodule Play.Router do
 
   get "/user/:user_name/settings" do
     json = Settings.get_or_default(user_name)
-    |> Settings.to_json
-    |> Jason.encode!
+           |> Settings.to_json
+           |> Jason.encode!
 
     conn
-    |>put_resp_content_type("application/json")
+    |> put_resp_content_type("application/json")
     |> send_resp(200, json)
   end
 

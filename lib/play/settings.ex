@@ -1,7 +1,7 @@
 defmodule Play.Settings do
   use Ecto.Schema
   alias Ecto.Changeset
-
+  @fields ~W(odds_format odds_change_action show_odds_change_options)a
   @primary_key {:user_name, :string, autogenerate: false}
 
   schema "settings" do
@@ -33,19 +33,12 @@ defmodule Play.Settings do
   end
 
   def params_from_json(json) do
-    %{
-      odds_format: json["oddsFormat"],
-      odds_change_action: json["oddsChangeAction"],
-      show_odds_change_options: json["showOddsChangeOptions"]
-    }
+    json
+    |> Play.Json.atomize_keys(@fields)
   end
 
   def to_json(settings) do
-    %{
-      oddsFormat: settings.odds_format,
-      oddsChangeAction: settings.odds_change_action,
-      showOddsChangeOptions: settings.show_odds_change_options
-    }
+    settings
+    |> Play.Json.jsonize_keys(@fields)
   end
-
 end

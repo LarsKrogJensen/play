@@ -25,6 +25,7 @@ defmodule Play.MixProject do
       {:ecto_sql, "~> 3.0"},
       {:postgrex, ">= 0.0.0"},
       {:jason, "~> 1.1"},
+      {:recase, "~> 0.5"},
       {:plug_cowboy, "~> 2.1"},
       # dev
       {:remix, "~> 0.0.2", only: :dev},
